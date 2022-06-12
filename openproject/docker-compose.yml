@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+  openproject:
+        container_name: openproject
+        image: openproject/community:11
+        restart: unless-stopped
+        environment:
+#          - SECRET_KEY_BASE=mysecret
+        ports:
+          - "9080:80"
+        volumes:
+          - /srv/openproject/pgdata:/var/openproject/pgdata
+          - /srv/openproject/assets/:/var/openproject/assets
