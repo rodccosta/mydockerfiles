@@ -71,7 +71,7 @@ services:
 
   zabbix-agent:
     container_name: zabbix-agent
-    image: zabbix/zabbix-agent2:alpine-trunk
+    image: zabbix/zabbix-agent2:ubuntu-trunk
     user: root
     networks:
       - network-zabbix
@@ -80,7 +80,7 @@ services:
     restart: always
     privileged: true
     volumes:
-      - /srv/zabbix/agent:/etc/zabbix/
+#      - /srv/zabbix/agent:/etc/zabbix/
       - /var/run:/var/run
     ports:
       - '10050:10050'
