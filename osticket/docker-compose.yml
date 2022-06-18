@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+
+  osticket-app:
+    image: devinsolutions/osticket
+    container_name: osticket-app
+    ports:
+      - 8999:80 # change ip if required
+    volumes:
+      - ./logs/:/var/www/logs
+    environment:
+      - CONTAINER_NAME=osticket-app
+      - CRON_PERIOD=10
+      - MYSQL_HOST=osticket-db
+      - MYSQL_DATABASE=osticket2
+      - MYSQL_USER=osticket
+      - MYSQL_PASSWORD=mypassword
+      - SMTP_HOST=snmp.gmail.com
+      - SMTP_PORT=465
+      - SMTP_FROM=admin@admin.net
+      - SMTP_TLS=0
+      - SMTP_USER=admin@admin.net
+      - SMTP_PASSWORD=emailpassword
+
+      - INSTALL_SECRET=installsecret
+      - INSTALL_EMAIL=admin@admin.net
+
+      - ADMIN_FIRSTNAME=admin
+      - ADMIN_LASTNAME=name
+      - ADMIN_EMAIL=admin@admin.net
+      - ADMIN_USERNAME=administrador
+      - ADMIN_PASSWORD=adminsecret
+      - LANGUAGE=pt_BR
+    links:
+      - osticket-db:mysql
+    networks:
+      - services
+    restart: always
+    depends_on:
+      - osticket-db
+
+  osticket-db:
+    image: mariadb
+    container_name: osticket-db
+    volumes:
+      - ./osticketdb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_USER=osticket
+      - MYSQL_DATABASE=osticket
+      - MYSQL_PASSWORD=mypassword
+    networks:
+      - services
+    restart: always
+
+networks:
+  services:
+    external: true
